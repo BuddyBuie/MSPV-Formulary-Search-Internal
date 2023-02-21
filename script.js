@@ -39,7 +39,7 @@ function search(event) {
   table.innerHTML = '';
 
   const filteredData = allData.filter(row => {
-    const medline_pvon = row.Medline_PVON.toLowerCase();
+    const medline_pvon = row.Medline_PVON.toString().toLowerCase();
     const short_description = row.Short_Description.toLowerCase();
     const oem_part_num = row.OEM_Part_Num.toLowerCase();
 
@@ -74,4 +74,3 @@ function init() {
 }
 
 window.onload = init;
-
