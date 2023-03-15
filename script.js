@@ -55,7 +55,7 @@ function search(event) {
 }
 
 function init() {
-  fetchData('https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/Formulary%202-16-23%20(2).json')
+  fetchData('https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/Formulary%203-16-23.json')
     .then(data => {
       allData = data;
       renderTable(allData, 0, ROWS_PER_PAGE);
