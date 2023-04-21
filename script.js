@@ -40,8 +40,8 @@ function search(event) {
 
   const filteredData = allData.filter(row => {
     const medline_pvon = row.Medline_PVON.toString().toLowerCase();
-    const short_description = row.Short_Description.toLowerCase();
-    const oem_part_num = row.OEM_Part_Num.toLowerCase();
+    const short_description = row.Short_Description.toString().toLowerCase();
+    const oem_part_num = row.OEM_Part_Num.toString().toLowerCase();
 
     return (
       medline_pvon.includes(search) ||
