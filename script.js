@@ -1,9 +1,10 @@
 const table = document.querySelector("#output");
+const searchInput = document.querySelector("#search");
 
 const ROWS_PER_PAGE = 5000;
+const DATA_URL = 'https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/formulary%2006-06-23%20.json';
 
 let currentPage = 0;
-
 let allData = [];
 
 function fetchData(url) {
@@ -11,17 +12,20 @@ function fetchData(url) {
 }
 
 function renderTable(data, startIndex, endIndex) {
-  const rows = data.slice(startIndex, endIndex)
-    .map(row => `
+  const rows = data.slice(startIndex, endIndex).map(row => {
+    return `
       <tr>
         <td>${row.Medline_PVON}</td>
         <td>${row.Short_Description}</td>
         <td>${row.OEM_Part_Num}</td>
+        <td>${row.UOP}</td>
+        <td>${row.Quantity_per_UOP}</td>
+        <td>${row.Price_per_UOP}</td>
       </tr>
-    `)
-    .join('');
+    `;
+  }).join('');
 
-  table.innerHTML += rows;
+  table.querySelector("tbody").innerHTML += rows;
 }
 
 function loadMore() {
@@ -33,10 +37,10 @@ function loadMore() {
   currentPage++;
 }
 
-function search(event) {
-  const search = event.target.value.trim().toLowerCase();
+function search() {
+  const searchTerm = searchInput.value.trim().toLowerCase();
   currentPage = 0;
-  table.innerHTML = '';
+  table.querySelector("tbody").innerHTML = '';
 
   const filteredData = allData.filter(row => {
     const medline_pvon = row.Medline_PVON.toString().toLowerCase();
@@ -44,9 +48,9 @@ function search(event) {
     const oem_part_num = row.OEM_Part_Num.toString().toLowerCase();
 
     return (
-      medline_pvon.includes(search) ||
-      short_description.includes(search) ||
-      oem_part_num.includes(search)
+      medline_pvon.includes(searchTerm) ||
+      short_description.includes(searchTerm) ||
+      oem_part_num.includes(searchTerm)
     );
   });
 
@@ -55,12 +59,11 @@ function search(event) {
 }
 
 function init() {
-  fetchData('https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/formulary%2005-15-23%20.json')
-    .then(data => {
-      allData = data;
-      renderTable(allData, 0, ROWS_PER_PAGE);
-      currentPage++;
-    });
+  fetchData(DATA_URL).then(data => {
+    allData = data;
+    renderTable(allData, 0, ROWS_PER_PAGE);
+    currentPage++;
+  });
 
   window.addEventListener('scroll', () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -70,7 +73,15 @@ function init() {
     }
   });
 
-  document.querySelector("#search").addEventListener('input', search);
+  searchInput.addEventListener('input', debounce(search, 300)); // Add a debounce function to delay the search execution.
+}
+
+function debounce(func, delay) {
+  let timer;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(func, delay);
+  };
 }
 
 window.onload = init;
