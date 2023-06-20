@@ -2,7 +2,7 @@ const table = document.querySelector("#output");
 const searchInput = document.querySelector("#search");
 
 const ROWS_PER_PAGE = 5000;
-const DATA_URL = 'https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/formulary%2006-06-23%20.json';
+const DATA_URL = 'https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/MSPV%20Formulary%20Excel%206-20-23.json';
 
 let currentPage = 0;
 let allData = [];
