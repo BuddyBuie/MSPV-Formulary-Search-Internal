@@ -2,7 +2,7 @@ const table = document.querySelector("#output");
 const searchInput = document.querySelector("#search");
 
 const ROWS_PER_PAGE = 5000;
-const DATA_URL = 'https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/MSPV%20Formulary%208-15-23.json';
+const DATA_URL = 'https://raw.githubusercontent.com/BuddyBuie/Formulary-Json/main/Formulary%2009-18-23.json';
 
 let currentPage = 0;
 let allData = [];
@@ -21,6 +21,7 @@ function renderTable(data, startIndex, endIndex) {
         <td>${row.UOP}</td>
         <td>${row.Quantity_per_UOP}</td>
         <td>${row.Price_per_UOP}</td>
+        <td>${row.Dropship_Only}</td>
       </tr>
     `;
   }).join('');
@@ -46,11 +47,12 @@ function search() {
     const medline_pvon = row.Medline_PVON.toString().toLowerCase();
     const short_description = row.Short_Description.toString().toLowerCase();
     const oem_part_num = row.OEM_Part_Num.toString().toLowerCase();
+    
 
     return (
       medline_pvon.includes(searchTerm) ||
       short_description.includes(searchTerm) ||
-      oem_part_num.includes(searchTerm)
+      oem_part_num.includes(searchTerm) 
     );
   });
 
